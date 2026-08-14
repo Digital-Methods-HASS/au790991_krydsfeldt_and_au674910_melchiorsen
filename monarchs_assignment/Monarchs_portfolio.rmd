@@ -1,0 +1,173 @@
+---
+title: "monarchs_portfolio"
+author: "Neel Krydsfeldt Verstergaard and Peter Melchiorsen"
+date: "2026_08_14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(knitr)
+library(ggplot2)
+library(lubridate)
+library(readr)
+```
+
+
+The task here is to load your monarchs csv into R using the `tidyverse` toolkit, calculate and explore the kings' duration of reign with pipes `%>%` in `dplyr` and plot it over time.
+
+## Load the monarchs
+
+Make sure to first create an  `.Rproj` workspace with a `data/` folder where you place either your own dataset or the provided `monarchs.csv` dataset. 
+
+1. Look at the dataset that are you loading and check what its columns are separated by? (hint: open it in plain text editor to see)
+
+List what is the separator: it is ';' 
+
+2. Create a `kings` object in R with the different functions below and inspect the different outputs.
+-  `read.csv()`
+-  `read_csv()`
+-  `read.csv2()` 
+-  `read_csv2()`
+```{r}
+# FILL IN THE CODE BELOW and review the outputs
+monarchs1 <- read.csv("data/20260802_monachs_portfolio.csv")
+
+monarchs2 <- read_csv("data/20260802_monachs_portfolio.csv")
+
+monarchs3 <- read.csv2("data/20260802_monachs_portfolio.csv")
+
+monarchs4 <- read_csv2("data/20260802_monachs_portfolio.csv")
+```
+Answer: 
+1. Which of these functions is a `tidyverse` function? 
+read_csv og read_csv2 because they are a part of the readme-package.
+
+Read data with it below into a `monarchs` object
+2. What is the result of running `class()` on the `monarchs` object created with a tidyverse function.
+Instead of just showing us a 'data.frame'-object, as the class(monarchs3) does, class() run on 'monarchs' which is created with a tidyverse function, read_csv2, shows us, that it is a: "spec_tbl_df", "tbl_df", "tbl" and "data.frame".
+
+3. How many columns does the object have when created with these different functions? 
+The objects monarchs1, -2, -3 and -4 have in this order 1, 1, 6 and 6 columns.
+
+4. Show the dataset, so that we can see how R interprets each column:
+We uses head() to show a tibbie of the first six coloumns and the first six rows.
+
+```{r, eval=TRUE}
+# COMPLETE THE BLANKS BELOW WITH YOUR CODE, then turn the 'eval' flag in this chunk to TRUE.
+
+monarchs <- monarchs4
+
+class(monarchs3)
+class(monarchs)
+
+ncol(monarchs1)
+ncol(monarchs2)
+ncol(monarchs3)
+ncol(monarchs4)
+
+
+head(monarchs)
+
+```
+
+
+## Calculate the duration of reign for all the monarchs in your table
+You can calculate the duration of reign in years with `mutate` function by subtracting the equivalents of your `startReign` from `endReign` columns and writing the result to a new column called `duration`. But first you need to check a few things:
+
+* Is your data messy? Fix it before re-importing to R
+* Do your start and end of reign columns contain NAs? Choose the right strategy to deal with them: `na.omit()`, `na.rm=TRUE`, `!is.na()`
+
+
+Create a new column called  `duration` in the monarchs dataset, utilizing the `mutate()` function from tidyverse. Check with your group to brainstorm the options.
+
+```{r}
+duration_reign <- monarchs |> 
+mutate(monarchs, duration_reign = (end_of_reign_date - start_of_reign_date))
+duration_reign
+```
+
+Now we have a data.frame duration_reign with a columm more the monarchs object, and we have also set the new calumns name as duration_reign.
+
+
+## Calculate the average duration of reign for all rulers
+Do you remember how to calculate an average on a vector object? If not, review the last two lessons and remember that a column is basically a vector. So you need to subset your `monarchs` dataset to the `duration` column. If you subset it as a vector you can calculate average on it with `mean()` base-R function. If you subset it as a tibble, you can calculate average on it with `summarize()` tidyverse function. Try both ways!
+
+* You first need to know how to select the relevant `duration` column. What are your options?
+* Is your selected `duration` column a tibble or a vector? The `mean()` function can only be run on a vector. The `summarize()` function works on a tibble.
+* Are you getting an error that there are characters in your column? Coerce your data to numbers with `as.numeric()`.
+* Remember to handle NAs: `mean(X, na.rm=TRUE)`
+
+
+```{r}
+#First with summarize()
+average_duration_of_reign <- duration_reign |> summarise(
+  mean(duration_reign, na.rm=TRUE))
+#Now with mean(). The exstra column named duration_reign in duration_reign can be viewed by calling duration_reign$duration_reign. We remove the NA's by calling na.rm = TRUE, to calculate the mean.
+mean(duration_reign$duration_reign, na.rm=TRUE)
+```
+The mean years of reign time for the monarchs is 20.05 years. or 20 years.
+
+## How many and which monarchs enjoyed a longer-than-average duration of reign?
+
+You have calculated the average duration above. Use it now to `filter()` the `duration` column in  `monarchs` dataset. Display the result and also  count the resulting rows with `count()`
+
+```{r}
+#we define longer_than_average_monarchs
+longer_than_average_monarchs <- 
+ #by piping duration_reign 
+  duration_reign |>
+  #and filter so the only results we gets is the values in duration_reign$duration_reign bigger than 20.05 = average duration of reign, which we inset by taking the [] first value of the [] column of the object average_duration_of_reign
+  filter(duration_reign > average_duration_of_reign[[1]]) |>
+  #and piping the values bigger than average, so that those observations/monarchs names and duration of reign gets to be our to variables/columns in the longer_than_average_monarchs-object.
+  select(name, duration_reign)
+#Now we view which monarchs enjoyed a longer-than-average duration of reign.
+longer_than_average_monarchs
+count(longer_than_average_monarchs)
+```
+26 monarchs ruled longer than the average 20 years.
+
+## How many days did the three longest-ruling monarchs rule? 
+
+* Sort monarchs by reign `duration` in the descending order. Select the three longest-ruling monarchs with the `slice()` function
+* Use `mutate()` to create `Days` column where you calculate the total number of days they ruled
+* BONUS: consider the transition year (with 366 days) in your calculation!
+
+```{r}
+#we arrange the monarch descending by regards to their duration of reign and uses slice(1:3), gives us three first and therefore longest three ruling monarchs, and mutate() is good to create a new column on a tidyverse-object, and the values attatched to this column is directly 365 times the duration reign column plus for every forth years the monarchs have reigned they gets one extra day of reign to consider the transition year. 
+duration_reign|> arrange(desc(duration_reign)) |> slice(1:3) |> mutate(Days = duration_reign * 365 + floor(duration_reign / 4))
+```
+Christian 4., Margrethe 2. and Erik of Pommeren have had the longest period of reign with 21915 days, 18993 days and 15705 days.
+
+
+## Challenge: Plot the monarchs' duration of reign through time
+
+What is the long-term trend in the duration of reign among Danish monarchs? How does it relate to the historical violence trends ? 
+
+* Try to plot the duration of reign column in `ggplot` with `geom_point()` and  `geom_smooth()`
+* In order to peg the duration (which is between 1-99) somewhere to the x axis with individual centuries, I recommend creating a new column `midyear` by adding to `startYear` the product of `endYear` minus the `startYear` divided by two (`startYear + (endYear-startYear)/2`).
+* Now you can plot the kings dataset, plotting `midyear` along the x axis and `duration` along y axis
+* BONUS: add a title, nice axis labels to the plot and make the theme B&W and font bigger to make it nice and legible!
+
+```{r}
+monarchs_dropped <- monarchs |>
+    drop_na(start_of_reign_date, end_of_reign_date) |>
+    mutate(
+        duration = end_of_reign_date - start_of_reign_date,
+        midyear = start_of_reign_date + duration / 2)
+ggplot(monarchs_dropped, aes(x = midyear, y = duration)) +
+    geom_point() +
+    geom_smooth(se = FALSE) +
+    scale_x_continuous(breaks = seq(900, 2100, 100)) +
+    labs(
+        title = "Danish monarchs' duration of reign through time",
+        x = "Year",
+        y = "Duration of reign in years"
+    ) +
+    theme_bw(base_size = 14)
+```
+
+And to submit this rmarkdown, knit it into html. But first, clean up the code chunks, adjust the date, rename the author and change the `eval=FALSE` flag to `eval=TRUE` so your script actually generates an output.
+Well done!
