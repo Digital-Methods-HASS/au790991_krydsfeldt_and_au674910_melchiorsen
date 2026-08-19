@@ -4,6 +4,8 @@ We used the desktop version of R (V. 4.6.1) with RStudio (V. 2026.07.1+147).
 
 ## Packages needed to run both projects in R
 library(here) <br/>
+library(readtext) <br/>
+library(tidytext) <br/>
 library(knitr) <br/>
 library(ggplot2) <br/> 
 library(lubridate) <br/>
