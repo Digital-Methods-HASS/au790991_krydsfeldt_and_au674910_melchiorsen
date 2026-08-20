@@ -1,5 +1,5 @@
 ---
-title: "UN Speeches Wordcloud"
+title: "UN Speeches processing and figures"
 output: html_document
 date: "2026-08-12"
 ---
