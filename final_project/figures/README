@@ -1,0 +1,20 @@
+# This folder contains figure 1, 2 and 3.
+This README is a description of the three figures.<br/>
+<br/>
+# Figure 1
+This is nine wordclouds divided by the countries: Brazil (BRA), China (CHN), Deutschland/Federal Republic of Germany (DEU), 
+France (FRA), Great Britain (GRB), Poland (POL), Russia/USSR (RUS), USA and Yugoslavia (YUG). The wordclouds show the most
+common words for the countries in the period 1989-2000 after sorting. See our file: 'un_speeches_processing_and_figures.html' 
+in Github for list of stopwords.
+The biggest words are the ones used most pr. country in their total number of speeches in the period.
+
+# Figure 2
+The data in this figure is the same as in figure 1, but represented in a bar graph instead of a wordcloud. 
+There are nine bar graphs, one for each country. The x-axis shows the number of times the word has appeared in the total speeches of the country in the period 1989-2000. 
+The y-axis shows the most appearing words in the total speeches of the country in the period 1989-2000 after sorting.
+
+# Figure 3
+Shows term-frequency patterns in UN General Debate speeches, 1992–2000: “Historical_Process” sorted by country; 
+“Liberal Democracy” by country and by year; and “end of history” by country.
+
+
