@@ -376,8 +376,31 @@ General Debate sessions.</p>
 <li><a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/0TJX8Y">United
 Nations General Debate Corpus, 1946–2025</a></li>
 </ul>
-<p>The dataset webpage has not been visited by the <strong>Internet
-Archive’s Wayback Machine</strong>. The Wayback Machine only have captured 15 screenshots of the website, and only 1 in 2025 and zero in 2026. The dataset was published the 7. of may 2026. </p>
+<p>The dataset webpage has been visited by the <strong>Internet
+Archive’s Wayback Machine</strong>.
+
+</p>
+</div>
+<div id="data-source" class="section level1">
+<h1>Sorting</h1>
+<p>We sorted out words that didn’t influence an understanding of the historical direction of a specific country. 
+  We used a manual list of stopwords (see the file: 'un_speeches_processing_and_figures.html' in GitHub for a list of stopwords)
+  and the ‘inversed term frequency’-function in R. It removes words appearing in every speech, such as ‘and’, ‘the’ and ‘it’.
+  For more details, see line 57 in the R-file ‘un_speeches_ processing_and_figures.rmd’ in our GitHub.
+  The function ‘kwic’ (see line 134-6 in: un_speeches_ processing_and_figures.rmd) helped us sort specific
+  word such as ‘unipolar’, ‘multipolar’ and so forth. It showed us in what speeches the words appeared and the seven words before and after.
+  This context helped us pick the specific speeches to read closely.
+ </p>
+</div>
+<div id="data-source" class="section level1">
+<h1>Criterion in choosing the nine countries</h1>
+<p>   We considered big countries, liberal or communist influence and neither. 
+  The choice fell on Russia/USSR as a communist state and France, 
+  Great Britain and West Germany for a European democratic view of history. 
+  For a global perspective, we included the USA, China and Brazil. Poland and Yugoslavia 
+  added depth as Soviet satellite-states that may have experienced the fall differently, 
+  with less autonomy and greater economic dependence. 
+</p>
 </div>
 <div id="files-and-format" class="section level1">
 <h1>Files and Format</h1>
