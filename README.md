@@ -21,5 +21,5 @@ Secondly, we ask: To what extent did UN member states present liberal democracy 
 <br/>
 The second folder 'monarchs_assignment' contains a project with the Danish Monarchs, when they lived and their reign.<br/>
 <br/>
-Both project has in their separate folder a README for the specific project.
+Both project has in their separate folder a README for the specific projects.
 
